@@ -155,6 +155,7 @@ const TorBirdyPrefs = {
   // https://lists.torproject.org/pipermail/tor-talk/2012-May/024395.html
   "mailnews.reply_header_type": 1,
   "mailnews.reply_header_authorwrote": "%s",
+  "mailnews.reply_header_authorwrotesingle": "#1:",
   // Show Sender header in message pane (#10226).
   // http://heise.de/-2044405
   // https://bugzilla.mozilla.org/show_bug.cgi?id=332639
@@ -412,7 +413,6 @@ TorBirdy.prototype = {
   },
 
   setPrefs: function() {
-    dump("Setting TorBirdy preferences\n");
     // If custom values are set for specific preferences, override the defaults with them.
     // For each preference, get the type and then set the property.
     for (var i = 0; i < this.customPrefs.length; i++) {
