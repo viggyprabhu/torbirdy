@@ -61,3 +61,8 @@
 <!ENTITY torbirdy.panel.preferences.label "Open TorBirdy Preferences">
 
 <!ENTITY torbirdy.firstrun.title "TorBirdy First-Run">
+
+<!ENTITY torbirdy.transparenttorificationwarning.title "Transparent Torification Warning!!!">
+<!ENTITY torbirdy.transparenttorificationwarning.prefs.button "No, Open TorBirdy Preferences">
+<!ENTITY torbirdy.transparenttorificationwarning.ignore.button "Yes, Ignore it!">
+<!ENTITY torbirdy.transparenttorificationwarning.label "You have configured Torbirdy to work in Transparent Torification mode. Are you sure you want to continue with this settings?">

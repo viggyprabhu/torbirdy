@@ -70,6 +70,14 @@
           myPanel.style.color = "red";
         }
         prefs.setBoolPref("extensions.torbirdy.whonix_run", false);
+
+        //Show warning to user if Transparent Torification is configured, refer Bug #11728
+        if(type === 3)
+        {
+          window.open("chrome://castironthunderbirdclub/content/transparenttorificationwarning.xul",
+                      "TransparentTorificationWarningWindow",
+                      "chrome, dialog, centerscreen, resizable=no");
+        }
       }
       else {
         myPanel.label = strbundle.getString("torbirdy.enabled.disabled");

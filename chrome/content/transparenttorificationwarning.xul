@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://castironthunderbirdclub/locale/torbirdy.dtd">
+
+<dialog id="castironthunderbird-transparenttorification-warning"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        title="&torbirdy.transparenttorificationwarning.title;"
+        buttons="accept,cancel"
+        buttonlabelcancel="&torbirdy.transparenttorificationwarning.ignore.button;"
+        ondialogcancel="window.close();"
+        buttonlabelaccept="&torbirdy.transparenttorificationwarning.prefs.button;"
+        ondialogaccept="return org.torbirdy.transparenttorificationwarning.onPrefs();"
+        onload="return org.torbirdy.transparenttorificationwarning.onLoad();">
+        
+   <script type="application/x-javascript"
+     src="chrome://castironthunderbirdclub/content/transparenttorificationwarning.js">
+   </script>
+
+   <stringbundleset id="stringbundleset">
+     <stringbundle id="torbirdy-strings-transparenttorificationwarning" src="chrome://castironthunderbirdclub/locale/torbirdy.properties"/>
+   </stringbundleset>
+
+   <vbox flex="1" pack="start">
+     <description id="torbirdy-transparenttorification-warning" style="white-space: pre-wrap; width: 400px"></description>
+     <label value="&torbirdy.transparenttorificationwarning.label;" style="color:red"/>
+   </vbox>
+
+</dialog>
