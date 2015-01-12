@@ -45,6 +45,9 @@
         // Tor.
         if (type === 0) {
           myPanel.label = strbundle.getString("torbirdy.enabled.tor");
+
+          //Check which port to connect to 9050 or 9150, refer Bug #10762
+          org.torbirdy.prefs.setDefaultSocksPort();
         }
         // JonDo/Whonix.
         if (type === 1) {

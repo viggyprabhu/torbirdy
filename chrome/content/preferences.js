@@ -25,7 +25,8 @@ if (!org.torbirdy.prefs) org.torbirdy.prefs = new function() {
 
   pub.setDefaultPrefs = function() {
     pub.prefs.setCharPref("network.proxy.socks", "127.0.0.1");
-    pub.prefs.setIntPref("network.proxy.socks_port", 9150);
+    //Check which port to connect to 9050 or 9150, refer Bug #10762
+    pub.setDefaultSocksPort();
     pub.prefs.clearUserPref("network.proxy.http");
     pub.prefs.clearUserPref("network.proxy.http_port");
     pub.prefs.clearUserPref("network.proxy.ssl");
@@ -258,6 +259,34 @@ if (!org.torbirdy.prefs) org.torbirdy.prefs = new function() {
     pub.setPanelSettings(pub.strBundle.GetStringFromName("torbirdy.enabled.whonix"), "green");
     pub.prefs.setIntPref(pub.prefBranch + 'proxy', 1);
     pub.prefs.setIntPref(pub.prefBranch + 'proxy.type', 1);
+  };
+  pub.setDefaultSocksPort = function(){
+    //We try to connect to port 9050  on localhost to check if the Tor deamon is running, if so, we set it
+    //as Socks Port. If not, we set it to 9150.
+    var primaryPort = 9150;
+    var secondaryPort = 9050;
+    var eventSink = {
+      onTransportStatus: function(aTransport, aStatus, aProgress, aProgressMax) {
+        if (aStatus == aTransport.STATUS_CONNECTING_TO) {
+          if(!aTransport.isAlive()){
+            // If socket is not "alive" at this stage, it means connection refused
+            pub.setPreferences("network.proxy.socks_port", primaryPort);
+          }else{
+            pub.setPreferences("network.proxy.socks_port", secondaryPort);
+          }
+        }
+      }
+    };
+    var threadMgr = Components.classes["@mozilla.org/thread-manager;1"].getService();    
+    var transportService = Components.classes["@mozilla.org/network/socket-transport-service;1"]
+                           .getService(Components.interfaces.nsISocketTransportService);
+
+    var transport = transportService.createTransport(null, 0, "127.0.0.1", secondaryPort, null);
+
+    transport.setEventSink(eventSink, threadMgr.currentThread);
+    transport.setTimeout(Components.interfaces.nsISocketTransport.TIMEOUT_CONNECT,2000);
+    transport.setTimeout(Components.interfaces.nsISocketTransport.TIMEOUT_READ_WRITE,2000);
+    transport.openOutputStream(0, 0, 0);
   };
 
   pub.setProxyCustom = function() {
@@ -494,7 +523,6 @@ if (!org.torbirdy.prefs) org.torbirdy.prefs = new function() {
     // Tor.
     if (anonService === 0) {
       pub.socksHost.value = '127.0.0.1';
-      pub.socksPort.value = '9150';
     }
 
     // JonDo/Whonix.
